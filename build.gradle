@@ -1,0 +1,55 @@
+buildscript {
+
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url "https://repo.grails.org/grails/core" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
+        classpath 'org.asciidoctor:asciidoctorj:1.5.4'
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+        classpath 'org.asciidoctor:asciidoctorj-diagram:1.5.0'
+    }
+}
+
+
+group 'com.b2b.jupiter'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin:"org.asciidoctor.convert"
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+asciidoctorj {
+    version = '1.5.4'
+}
+
+asciidoctor {
+    requires = ['asciidoctor-diagram']
+    backends 'pdf', 'html5'
+    attributes \
+    'build-gradle'      : file('build.gradle'),
+            'sourcedir'         : 'src/docs',
+            'endpoint-url'      : 'http://example.org',
+            'source-highlighter': 'coderay',
+            'imagesdir'         : './images',
+            'toc'               : 'left',
+            'icons'             : 'font',
+            'setanchors'        : '',
+            'idprefix'          : '',
+            'idseparator'       : '-',
+            'docinfo1'          : ''
+}
